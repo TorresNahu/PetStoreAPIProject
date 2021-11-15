@@ -41,3 +41,8 @@ pipenv shell
 # Install all dependencies in your virtualenv
 pipenv install
 ```
+
+##Swagger Petstore API
+https://petstore.swagger.io/
+
+
