@@ -1,5 +1,4 @@
 from json import dumps
-from uuid import uuid4
 
 from config import *
 from utils.request import APIRequest
