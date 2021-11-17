@@ -1,9 +1,13 @@
 from assertpy import assert_that
 
 
-def assert_pet_name_exists(response, pet_name):
-    assert_that(response.as_dict).is_not_empty().contains(pet_name)
+def assert_add_new_pet_is_successful(response, excepted_pet_id):
+    assert_that(response.as_dict['id']).is_equal_to(excepted_pet_id)
 
 
-def assert_add_new_pet_is_successful(response, first_name):
-    assert_that(response.as_dict).extracting('fname').is_not_empty().contains(first_name)
+def assert_updated_pet_name(response, expected_pet_name):
+    assert_that(response.as_dict['name']).is_equal_to(expected_pet_name)
+
+
+def assert_response_status_code_is_valid(response, expected_status_code):
+    assert_that(response.status_code).is_equal_to(expected_status_code)
