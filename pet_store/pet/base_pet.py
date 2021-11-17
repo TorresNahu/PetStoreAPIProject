@@ -20,14 +20,14 @@ class BasePet:
     def __create_new_unique_pet(self, body):
         unique_pet_id = body['id']
         payload = dumps(body)
-        response = self.request.post(BASE_URL, payload, self.headers)
+        response = self.request.post(BASE_URL_PET, payload, self.headers)
         return unique_pet_id, response
 
     def update_existing_pet(self, body):
         pass
 
     def get_pet_by_id(self, pet_id):
-        return self.request.get(f'{BASE_URL_PET}{pet_id}')
+        return self.request.get(f'{BASE_URL_PET}{int(pet_id)}')
 
     def get_pets_by_status(self, status):
         """
