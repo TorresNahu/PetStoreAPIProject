@@ -1,94 +1,46 @@
-from json import dumps
-from uuid import uuid4
-
 import requests as requests
-from assertpy.assertpy import assert_that, soft_assertions
-from config import *
+from assertpy.assertpy import soft_assertions
 
-################## VARIABLES ##################
-_pet_status = {
-    "AVAILABLE": "available",
-    "PENDING": "pending",
-    "SOLD": "sold"
-}
+import data.pet_status_dict as pet_status_dict
+from pet_store.pet.base_pet import BasePet
+from tests.assertions.pets_assertions import *
 
-################## TESTS ##################
+pet = BasePet()
 
 
-def test_available_pets_has_doggie():
-    response = get_all_pets_by_status(_pet_status["AVAILABLE"])
+def test_available_pets_has_expected_pet_name(pet_name="doggie"):
+    response = pet.get_pets_by_status(pet_status_dict.pet_status.get('AVAILABLE'))
     with soft_assertions():
-        assert_that(response.status_code).is_equal_to(requests.codes.ok)
+        assert_response_status_code_is_valid(response, requests.codes.ok)
+        # assert_pet_name_exists(response, pet_name)
         pets = response.json()
-        pet_names = search_pets_by_condition(pets, 'doggie', 'name')
-        assert_that(pet_names).is_true()
+        # pet_names = search_pets_by_condition(response, 'doggie', 'name')
+        # assert_that(pet_names).is_true()
 
 
-def test_add_new_pet_to_store():
-    unique_pet = create_a_new_unique_pet()
-    pets = get_all_pets_by_status(_pet_status["AVAILABLE"]).json()
-    is_new_pet_created = search_pets_by_condition(pets, unique_pet['id'], 'id')
-    assert_that(is_new_pet_created).is_true()
-
-
-def test_delete_pet():
-    unique_pet = create_a_new_unique_pet()
-    url = f'{BASE_URL_PET}{unique_pet["id"]}'
-    delete_pet = requests.delete(url=url)
+def test_add_new_pet_to_store(create_pet_data):
+    pet.add_new_pet_to_the_store(create_pet_data)
+    excepted_pet_id = create_pet_data['id']
+    pets = pet.get_pet_by_id(excepted_pet_id)
     with soft_assertions():
-        assert_that(delete_pet.status_code).is_equal_to(requests.codes.ok)
-        is_pet_deleted = get_pet_by_id(unique_pet['id'])
-        assert_that(is_pet_deleted.status_code).is_equal_to(requests.codes.not_found)
-
-################## FUNCTIONS ##################
+        assert_response_status_code_is_valid(pets, requests.codes.ok)
+        assert_add_new_pet_is_successful(pets, excepted_pet_id)
 
 
-def create_a_new_unique_pet():
-    unique_pet_name = f'Pet {str(uuid4())}'
-    payload = dumps({
-        "id": 0,
-        "category": {
-            "id": 0,
-            "name": "string"
-        },
-        "name": unique_pet_name,
-        "photoUrls": [
-            "string"
-        ],
-        "tags": [
-            {
-                "id": 0,
-                "name": "string"
-            }
-        ],
-        "status": "available"
-    })
-    headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
-    response = requests.post(url=BASE_URL_PET, data=payload, headers=headers)
-    assert_that(response.status_code).is_equal_to(requests.codes.ok)
-    return response.json()
+def test_update_existing_pet(create_pet_data):
+    pet_id, _ = pet.add_new_pet_to_the_store(create_pet_data)
+    expected_update_pet_name = "Updated Pet Name"
+    create_pet_data['name'] = expected_update_pet_name
+    updated_pet_response = pet.update_existing_pet(create_pet_data)
+    with soft_assertions():
+        assert_response_status_code_is_valid(updated_pet_response, requests.codes.ok)
+        assert_updated_pet_name(updated_pet_response, expected_update_pet_name)
 
 
-def search_pets_by_condition(pets, pet_expected, condition):
-    pet_list = []
-    for pet in pets:
-        if pet[condition] == pet_expected:
-            pet_list.append(pet)
-            break
-
-    return pet_list
-
-
-def get_all_pets_by_status(status):
-    """
-    :param status: Str. Available values : available, pending, sold
-    :return: All pets according to a provided status.
-    """
-    return requests.get(f'{FIND_PET_BY_STATUS_URL}{status}')
-
-
-def get_pet_by_id(pet_id):
-    return requests.get(f'{BASE_URL_PET}{str(pet_id)}')
+def test_delete_pet(create_pet_data):
+    unique_pet_id, _ = pet.add_new_pet_to_the_store(create_pet_data)
+    delete_pet_response = pet.delete_a_pet(unique_pet_id)
+    with soft_assertions():
+        assert_response_status_code_is_valid(delete_pet_response, requests.codes.ok)
+        is_pet_deleted = pet.get_pet_by_id(unique_pet_id)
+        assert_response_status_code_is_valid(is_pet_deleted, requests.codes.not_found)
