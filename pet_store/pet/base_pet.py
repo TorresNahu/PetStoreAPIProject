@@ -37,7 +37,7 @@ class BasePet:
         return self.request.get(f'{FIND_PET_BY_STATUS_URL}{status}')
 
     def delete_a_pet(self, pet_id):
-        pass
+        return self.request.delete(f'{BASE_URL_PET}{pet_id}')
 
     def search_pets_by_condition(self, pets, pet_expected, condition):
         pet_names_list = []
