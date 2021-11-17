@@ -24,7 +24,12 @@ class BasePet:
         return unique_pet_id, response
 
     def update_existing_pet(self, body):
-        pass
+        return self.__update_an_existing_pet(body)
+
+    def __update_an_existing_pet(self, body):
+        payload = dumps(body)
+        response = self.request.put(BASE_URL_PET, payload, self.headers)
+        return response
 
     def get_pet_by_id(self, pet_id):
         return self.request.get(f'{BASE_URL_PET}{int(pet_id)}')
