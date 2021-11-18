@@ -8,6 +8,8 @@ requests = "*"
 pytest = "*"
 assertpy = "*"
 jsonpath-ng = "*"
+cerberus = "*"
+pytest-xdist = "*"
 
 [dev-packages]
 
