@@ -27,6 +27,8 @@ class UserPetStore(BaseObject):
         return self.request.delete(f'{BASE_USER_URL}/{username}')
 
     def login_user_into_the_system(self, username, password):
-
+        url = f'{LOGIN_URL}?username={username}&password={password}'
+        return self.request.get(url)
 
     def logout_user_into_the_system(self):
+        return self.request.get(LOGOUT_URL)
