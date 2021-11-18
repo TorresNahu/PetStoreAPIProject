@@ -1,7 +1,6 @@
 import random
 
 import pytest
-from uuid import uuid4
 from utils.file_reader import read_file
 
 
