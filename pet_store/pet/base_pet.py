@@ -1,17 +1,14 @@
 from json import dumps
 
 from config import *
+from pet_store.base_object import BaseObject
 from utils.request import APIRequest
 
 
-class BasePet:
+class BasePet(BaseObject):
     def __init__(self):
+        super().__init__()
         self.request = APIRequest()
-
-        self.headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
 
     def add_new_pet_to_the_store(self, body=None):
         pet_id, response = self.__create_new_unique_pet(body)
