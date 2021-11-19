@@ -5,7 +5,7 @@ from utils.request import APIRequest
 from config import *
 
 
-class UserPetStore(BaseObject):
+class UserObject(BaseObject):
     def __init__(self):
         super().__init__()
         self.request = APIRequest()
