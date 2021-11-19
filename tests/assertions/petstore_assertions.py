@@ -15,3 +15,7 @@ def assert_response_status_code_is_valid(response, expected_status_code):
 
 def assert_create_new_user_is_successful(response, expected_username):
     assert_that(response.as_dict['username']).is_equal_to(expected_username)
+
+
+def assert_pets_has_expected_status(response, expected_status):
+    assert_that(response.as_dict).extracting('status').is_not_empty().contains(expected_status)
