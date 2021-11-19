@@ -16,13 +16,13 @@ python3 --version
 ```
 
 Next, Install pipenv:
-####Windows
+#### Windows
 Open a terminal and write the following command:
 ```zsh
 pip install pipenv
 ```
 
-####Mac/Linux
+#### Mac/Linux
 To install pipenv, you can use homebrew on mac/linux
 ```zsh
 brew install pipenv
@@ -32,7 +32,7 @@ Or, Alternatively, You can also use pip directly with a user installation to ins
 pip install --user pipenv
 ```
 
-##Setting up virtualenv
+## Setting up virtualenv
 With python setup. The next step that we need to take care of is to set up a virtualenv in which we can install all the required packages. You can just install modules directly on your base python installation but its an accepted best practice to use virtualenvs
 
 ```zsh
@@ -42,7 +42,7 @@ pipenv shell
 pipenv install
 ```
 
-##Swagger Petstore API
+## Swagger Petstore API
 https://petstore.swagger.io/
 
 
