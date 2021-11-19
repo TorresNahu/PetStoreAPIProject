@@ -21,9 +21,9 @@ class PetObject(BaseObject):
         return unique_pet_id, response
 
     def update_existing_pet(self, body):
-        return self.__update_an_existing_pet(body)
+        return self.__update_pet(body)
 
-    def __update_an_existing_pet(self, body):
+    def __update_pet(self, body):
         payload = dumps(body)
         response = self.request.put(BASE_URL_PET, payload, self.headers)
         return response
