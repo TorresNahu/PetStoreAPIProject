@@ -10,5 +10,6 @@ class StoreObject(BaseObject):
         self.request = APIRequest()
 
     def get_pet_inventory(self):
-        return self.request.get(GET_PET_INVENTORY_URL)
+        return self.request.get(STORE_INVENTORY_URL)
+
 
