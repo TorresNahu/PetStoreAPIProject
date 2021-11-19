@@ -1,10 +1,10 @@
 import requests
 from assertpy import soft_assertions
 
-from pet_store.user.user_petstore import UserPetStore
+from pet_store.user.user_object import UserObject
 from tests.assertions.petstore_assertions import *
 
-user = UserPetStore()
+user = UserObject()
 status_OK = requests.codes.ok
 
 
