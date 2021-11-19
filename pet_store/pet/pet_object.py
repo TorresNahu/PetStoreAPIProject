@@ -41,11 +41,11 @@ class PetObject(BaseObject):
     def delete_a_pet(self, pet_id):
         return self.request.delete(f'{BASE_URL_PET}{pet_id}')
 
-    def search_pets_by_condition(self, pets, pet_expected, condition):
-        pet_names_list = []
-        for pet in pets:
-            if pet[condition] == pet_expected:
-                pet_names_list.append(pet)
-                break
-
-        return pet_names_list
+    # def search_pets_by_condition(self, pets, pet_expected, condition):
+    #     pet_names_list = []
+    #     for pet in pets:
+    #         if pet[condition] == pet_expected:
+    #             pet_names_list.append(pet)
+    #             break
+    #
+    #     return pet_names_list
